@@ -1,12 +1,13 @@
 from distutils.core import setup
 
 setup(
-	name="adldap",
-	version="0.1",
+	name="pyadldap",
+	version="0.1.0",
 	description="Library for managing Microsoft Active Directory from LDAP",
 	author="Jonas Delgado Mesa",
 	author_email="jdelgado@yohnah.net",
-	url="http://www.yohnah.net",
+	url="https://github.com/Wengex/PyADLdap",
 	license="GPLv2",
-	packages=["adldap"]
+	packages=["pyadldap"],
+	long_description=open('README.md').read(),
 )

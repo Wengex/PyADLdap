@@ -1,1 +1,2 @@
 include adldap/*.py
+include *.md
