@@ -67,7 +67,7 @@ And to search an LDAP object, such as a user:
 
         user = ad.objs.get('(samaccountname=username)')
         
-    or, with util setQuery method:
+    or, with setQuery method:
   
         user = ad.objs.get(ad.setQuery(samaccountname="username"))
     
@@ -140,7 +140,7 @@ Enable or disable user:
         user.enable() #method call save()
         user.disable()  #method call save()
         
-If we want to find multiple Active Directory objects you can use the "filter" method instead of the "get" method:
+If you want to find multiple Active Directory objects you can use the "filter" method instead of the "get" method:
 
     Get all enabled computers, whose name does not begin with HST and not by LTP:
     
