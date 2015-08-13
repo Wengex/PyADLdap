@@ -29,11 +29,18 @@ First you must install a python-ldap dependence:
   
         apt-get install python-ldap
 
-  - Or, if your prefer, you can install python-ldap dependencies with the following command:
+  - Or, if you prefer, you need only install dependencies python-ldap with the following command
   
         apt-get build-dep python-ldap
 
-  
+Then you can use pip to install it:
+
+        pip install pyadldap
+
+Or you can download the source code and install it with the following command:
+
+        python setup.py install
+        
 ## How to use
 
 ## TODO
