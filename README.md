@@ -19,9 +19,6 @@ The object attributes in LDAP are processed as attributes of objects in python a
 - Python 2.7
   - python-ldap
 
-- Python 3
-  - Working on it 
-
 ## Installation
 
 First you must install a python-ldap dependence:
