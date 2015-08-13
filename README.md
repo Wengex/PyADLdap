@@ -27,11 +27,11 @@ First you must install a python-ldap dependence:
 
   - On debian and derivative
   
-      apt-get install python-ldap
+        apt-get install python-ldap
 
   - Or, if your prefer, you can install python-ldap dependencies with the following command:
   
-      apt-get build-dep python-ldap
+        apt-get build-dep python-ldap
 
   
 ## How to use
