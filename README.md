@@ -142,17 +142,17 @@ Enable or disable user:
         
 If you want to find multiple Active Directory objects you can use the "filter" method instead of the "get" method:
 
-    Get all enabled computers, whose name does not begin with HST and not by LTP:
+    Get all enabled computers with Windows 7, whose name does not begin with HST and not by LTP:
     
-        hosts = ad.objs.filter('(&(!(samaccountname=HST*))(!(samaccountname=LTP*))(!(userAccountControl:1.2.840.113556.1.4.803:=2)))')
+        hosts = ad.objs.filter('(&(!(samaccountname=HST*))(!(samaccountname=LTP*))(operatingsystem=Windows 7*)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))')
         
     or the easy way:
       
-        hosts = ad.objs.filter(ad.setQuery(samaccountname__not=['HST*','LTP*'],is_disable=False))
+        hosts = ad.objs.filter(ad.setQuery(samaccountname__not=['HST*','LTP*'],operatingsystem="Windows 7*",is_disable=False))
         
     or, with user especific property:
     
-        hosts = ad.computers.filter(ad.setQuery(samaccountname__not=['HST*','LTP*'],is_disable=False))
+        hosts = ad.computers.filter(ad.setQuery(samaccountname__not=['HST*','LTP*'],operatingsystem="Windows 7*",is_disable=False))
   
 And the hosts object will have a list of objects similar to the object user:
 
