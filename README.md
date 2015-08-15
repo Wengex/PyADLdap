@@ -198,7 +198,7 @@ To create a new LDAP object, like a group, then:
 
 ## Documentation
 
-[Working on it](https://github.com/Wengex/PyADLdap/wiki)
+  [Working on it](https://github.com/Wengex/PyADLdap/wiki)
 
 ## TODO
 
