@@ -55,8 +55,12 @@ class adObj(object):
 		if dn == None: #NewObj
 			for attr in self.newobj:
 				setattr(self,attr.lower(),None)
+			setattr(self,'container',None)
+		else:
+			setattr(self,"dn",dn)
+			cnt = dn.split(',')[1:]
+			setattr(self,"container",",".join(cnt))
 
-		setattr(self,"dn",dn)
 		for i in data:
 			setattr(self,i.lower(),data[i])
 		self.adcomplete = True
@@ -199,7 +203,9 @@ class adObj(object):
 			Example:
 				obj.move("OU=OUNAME,DC=DCPREFIX,DC=DCSUFFIX")
 		'''
-		self.adldap.ldapConnection.rename_s(self.dn.value,'cn='+self.cn.value, newcontainer)
+		#self.adldap.ldapConnection.rename_s(self.dn.value,'cn='+self.cn.value, newcontainer)
+		self.container = newcontainer
+		self.save()
 
 	def save(self):
 		'''Method to create or modify the LDAP object in Active Directory
@@ -217,14 +223,25 @@ class adObj(object):
 		except:
 			pass
 
-		if attrs.get('dn',None).value == None:
-			raise self.adldap.NotDNDefinied("Not DN Definied")
+#		if attrs.get('dn',None).value == None:
+#			raise self.adldap.NotDNDefinied("Not DN Definied")
+
+		if (attrs.get('cn',None).value == None) or (attrs.get('container',None).value == None):
+			raise self.adldap.NotDNDefinied("CN and/or CONTAINER field can not be None")
 
 		if not isNew: #is modify action
+			if attrs['dn'].__dict__.get('is_modified',False):
+				raise self.adldap.ForbidChangeDN("Can not change DN field. You must use CN and/or CONTAINER attribute. Remove field.")
+			cn = False
+			cnt = False
 			if attrs['cn'].__dict__.get('is_modified',False):
 				cn = attrs['cn'].value
 				del attrs['cn']
-				self.adldap.ldapConnection.modrdn_s(self.dn.value,'cn='+str(cn),True)
+	
+			if attrs['container'].__dict__.get('is_modified',False):
+				cnt = attrs['container'].value
+				del attrs['container']
+
 			for attr in attrs:
 				modtype= ldap.MOD_REPLACE
 				if attrs[attr].__dict__.get('is_modified',False):
@@ -233,12 +250,27 @@ class adObj(object):
 					modlist.append((modtype,attr,attrs[attr].raw))
 					if (attr.lower() == 'unicodepwd'): #Two times is needed for update password in AD
 						modlist.append((modtype,attr,attrs[attr].raw))
+
 			if len(modlist) > 0:
-				self.adldap.ldapConnection.modify_s(self.dn.value,modlist)	
+				self.adldap.ldapConnection.modify_s(self.dn.value,modlist)
+
+			if cn:
+				self.adldap.ldapConnection.modrdn_s(self.dn.value,'cn='+str(cn),True)
+				newdn = 'cn='+str(cn)+','+','.join(self.dn.value.split(',')[1:])
+				self.dn = newdn
+				del self.dn.is_modified
+				del self.cn.is_modified
+
+			if cnt:
+				self.adldap.ldapConnection.rename_s(self.dn.value,'cn='+self.cn.value, cnt)
+				newdn = 'cn='+self.cn.value+','+cnt
+				self.dn = newdn
+				del self.dn.is_modified
+				del self.container.is_modified
 
 		else:
-			dn = attrs['dn'].value
-			del attrs['dn']
+			cnt = attrs['container'].value
+			del attrs['container']
 			add = {}
 			
 			try:
@@ -252,6 +284,7 @@ class adObj(object):
 					raise self.adldap.EmptyAttrNewObj("Empty attributes for new Object "+str(self.newobj))
 				add[attr] = attrs[attr].value
 			addlist= ldap.modlist.addModlist(add)
+			dn = 'CN='+attrs['cn'].value+','+cnt
 			self.adldap.ldapConnection.add_s(dn,addlist)
 
 

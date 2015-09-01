@@ -3,6 +3,10 @@
 class adUtils(object):
 	'''Class with useful tools to facilitate using the framework 
 	'''
+
+	class ForbidChangeDN(Exception):
+		pass
+
 	class ObjectNotHaveEnable(Exception):
 		pass
 
