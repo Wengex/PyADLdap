@@ -7,6 +7,8 @@ from urlparse import urlparse as getFQDN
 from adutils import adUtils
 
 from adobjs import adObjs, adGroups, adComputers, adUsers, adOUs
+import getpass
+
 
 class adLDAP(adUtils):
 	''' Principal Class to init the Framework	
@@ -24,7 +26,7 @@ class adLDAP(adUtils):
 			ad = adLDAP(**dictconnection)
 	'''
 
-	def __init__(self,dcs,username,password,basedn=None):
+	def __init__(self,dcs,username,password=None,basedn=None):
 		'''Method construct.
 			@params:
 				(List)dcs : Domain Controller list.
@@ -39,7 +41,10 @@ class adLDAP(adUtils):
 		self.controller = None
 		self.domainControllers = dcs
 		self.username = username
-		self.password = password
+		if password == None:
+			self.password = getpass.getpass("Password: ")
+		else:		
+			self.password = password
 		self.baseDN = basedn
 		if not self.connect():
 			raise ldap.INVALID_CREDENTIALS("Invalid Username or Password")
