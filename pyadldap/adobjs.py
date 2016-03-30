@@ -133,7 +133,7 @@ class adObj(object):
 			value = []
 
 		if type(value) != list:
-			string = u"%(value)s" % {'value': value}
+			string = u"%(value)s" % {'value': value.decode('utf-8')}
 			if string.strip() == '':
 				value = []
 			else:
