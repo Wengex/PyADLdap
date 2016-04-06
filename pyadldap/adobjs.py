@@ -283,7 +283,8 @@ class adObj(object):
 			for attr in attrs:
 				if (attr in self.newobj) and (attrs[attr].value == None):
 					raise self.adldap.EmptyAttrNewObj("Empty attributes for new Object "+str(self.newobj))
-				add[attr] = attrs[attr].value
+				if attrs[attr].value != None:
+					add[attr] = attrs[attr].value
 			addlist= ldap.modlist.addModlist(add)
 			dn = 'CN='+attrs['cn'].value+','+cnt
 			self.adldap.ldapConnection.add_s(dn,addlist)

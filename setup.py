@@ -9,7 +9,7 @@ except:
 
 setup(
 	name="pyadldap",
-	version="0.1.13",
+	version="0.1.15",
 	description="FrameWork for managing Microsoft Active Directory from LDAP",
 	author="Jonas Delgado Mesa",
 	author_email="jdelgado@yohnah.net",
