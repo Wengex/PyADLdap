@@ -133,7 +133,7 @@ class adObj(object):
 			value = []
 
 		if type(value) != list:
-			if value != None and str(value).strip() == '':
+			if value == None or str(value).strip() == '':
 				value = []
 			else:
 				value = [str(value)]
