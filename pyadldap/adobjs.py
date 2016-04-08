@@ -133,11 +133,10 @@ class adObj(object):
 			value = []
 
 		if type(value) != list:
-			string = r"%(value)s" % {'value': value}
-			if string.strip() == '':
+			if value != None and str(value).strip() == '':
 				value = []
 			else:
-				value = [string]
+				value = [str(value)]
 
 		adtypes = {
 			'dn': dn,
