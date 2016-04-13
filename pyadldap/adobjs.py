@@ -380,8 +380,11 @@ class adGroup(adObj):
 			modify = True
 
 		if modify:
-			lst = self.member.raw
-			lst.append(dn)
+			try:
+				lst = self.member.raw
+				lst.append(dn)
+			except AttributeError, e:
+				lst = dn
 			self.member = lst
 			self.save()
 
