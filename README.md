@@ -1,4 +1,4 @@
-# PyADLdap
+# PyADLdap (Deprecated)
 Python framework to managing Microsoft Active Directory from LDAP
 
 ## Index
